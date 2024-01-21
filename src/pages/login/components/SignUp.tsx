@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Field } from '../../../components/Field';
 import { useMutation } from 'react-query';
 import { signUpService } from '../../../services/signup';
+import { useUserContext } from '../../../contexts/userContext';
 
 interface IFormValues {
   name: string;
@@ -12,6 +13,8 @@ interface IFormValues {
 }
 
 export const SignUp = () => {
+  const { setUser } = useUserContext();
+
   const signUpMutation = useMutation(signUpService);
 
   const { control, handleSubmit, setError } = useForm<IFormValues>({
@@ -32,7 +35,11 @@ export const SignUp = () => {
 
     signUpMutation.mutate(values, {
       onSuccess: (user) => {
-        console.log(user);
+        setUser({
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        });
       },
     });
   };

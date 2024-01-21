@@ -23,5 +23,6 @@ export const signUpService = async (values: ISignUpServiceProps) => {
     return user;
   } catch (error) {
     alert('Não foi possivel cadastrar o usuário');
+    throw error;
   }
 };

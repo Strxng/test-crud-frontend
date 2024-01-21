@@ -1,5 +1,7 @@
 import { Routes as ReactRoutes, Route, BrowserRouter } from 'react-router-dom';
 import { LoginPage } from './pages/login';
+import { useUserContext } from './contexts/userContext';
+import { HomePage } from './pages/home';
 
 const AuthRoutes = () => {
   return (
@@ -11,6 +13,22 @@ const AuthRoutes = () => {
   );
 };
 
+const AppRoutes = () => {
+  return (
+    <BrowserRouter>
+      <ReactRoutes>
+        <Route path="/" element={<HomePage />} />
+      </ReactRoutes>
+    </BrowserRouter>
+  );
+};
+
 export const Routes = () => {
-  return <AuthRoutes />;
+  const { user } = useUserContext();
+
+  if (!user) {
+    return <AuthRoutes />;
+  }
+
+  return <AppRoutes />;
 };

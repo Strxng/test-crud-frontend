@@ -28,6 +28,13 @@ export const httpPost = async <ResponseType = any, BodyType = any>({
   return data;
 };
 
+export const httpDelete = async <ResponseType = any, BodyType = any>({
+  endpoint,
+}: Request<BodyType>) => {
+  const { data } = await api.delete<ResponseType>(endpoint);
+  return data;
+};
+
 export const createProviderApi = (authToken?: string) => {
   api = axios.create({
     baseURL: 'http://localhost:8080/',

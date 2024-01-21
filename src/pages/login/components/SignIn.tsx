@@ -3,6 +3,9 @@ import { useForm } from 'react-hook-form';
 import { Field } from '../../../components/Field';
 import { useMutation } from 'react-query';
 import { loginService } from '../../../services/login';
+import { jwtDecode } from 'jwt-decode';
+import { useUserContext } from '../../../contexts/userContext';
+import { IUser } from '../../../types/User';
 
 interface IFormValues {
   email: string;
@@ -10,6 +13,8 @@ interface IFormValues {
 }
 
 export const SignIn = () => {
+  const { setUser } = useUserContext();
+
   const loginMutation = useMutation(loginService);
 
   const { control, handleSubmit } = useForm<IFormValues>({
@@ -27,7 +32,12 @@ export const SignIn = () => {
       },
       {
         onSuccess: (token) => {
-          console.log(token);
+          const decoded = jwtDecode(token) as IUser;
+          setUser({
+            id: decoded.id,
+            email: decoded.email,
+            name: decoded.name,
+          });
         },
       },
     );

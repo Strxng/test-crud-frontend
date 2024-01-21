@@ -20,5 +20,6 @@ export const loginService = async (values: ILoginServiceProps) => {
     return accessToken;
   } catch (error) {
     alert('Email ou senha inválidos');
+    throw error;
   }
 };
